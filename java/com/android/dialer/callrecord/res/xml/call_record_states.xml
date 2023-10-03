@@ -777,6 +777,8 @@
     -->
     <country iso="jp" allowed="true" />
 
+    <country iso="kz" allowed="true" />
+
     <!-- Enable recording for South Korea:
          According to Article 3(1) of the Protection of Communications Secrets Act, it is forbidden
          to wiretap, record or listen to any conversation between other parties. Article 4 defines
