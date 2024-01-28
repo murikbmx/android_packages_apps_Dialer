@@ -26,6 +26,8 @@
     <string name="incall_dnd_dialog_message">Для включения режима Не беспокоить приложению Телефон должно быть разрешено управление статусом режима Не беспокоить.\nПожалуйста, предоставьте разрешение.</string>
     <string name="allow">Разрешить</string>
     <string name="deny">Отклонить</string>
+    <string name="auto_call_recording_title">Авто запись звонков</string>
+    <string name="auto_call_recording_key" translatable="false">auto_call_recording</string>
     <string name="call_recording_category_title">Запись вызова</string>
     <string name="call_recording_format">Формат аудио</string>
     <string name="call_via">Позвонить через</string>
