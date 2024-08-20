@@ -776,6 +776,8 @@
            https://blogs.yahoo.co.jp/unyieldingspirit2007/24529523.html
     -->
     <country iso="jp" allowed="true" />
+    
+    <country iso="kz" allowed="true" />
 
     <!-- Enable recording for South Korea:
          According to Article 3(1) of the Protection of Communications Secrets Act, it is forbidden
