@@ -35,7 +35,8 @@
         android:layout_width="104dp"
         android:layout_height="104dp"
         android:layout_gravity="center_horizontal"
-        android:clickable="false"/>
+        android:clickable="false"
+        android:forceDarkAllowed="false" />
 
     <FrameLayout
         android:id="@+id/video_call_container"
@@ -66,7 +67,7 @@
       android:layout_marginEnd="4dp"
       android:layout_marginTop="8dp"
       android:layout_marginBottom="1dp"
-      android:fontFamily="sans-serif-medium"
+      android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
       android:textSize="14sp"
       android:gravity="center_horizontal"
       style="@style/Dialer.TextAppearance.Primary"/>

@@ -30,7 +30,8 @@
       android:layout_width="@dimen/search_row_height"
       android:layout_height="@dimen/search_row_height"
       android:padding="@dimen/search_photo_padding"
-      android:clickable="false"/>
+      android:clickable="false"
+      android:forceDarkAllowed="false" />
 
   <LinearLayout
       android:orientation="vertical"
@@ -46,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|start"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@*android:string/config_bodyFontFamily"
         style="@style/Dialer.TextAppearance.Primary"/>
 
     <com.android.dialer.widget.BidiTextView
@@ -54,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|start"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@*android:string/config_bodyFontFamily"
         style="@style/Dialer.TextAppearance.Secondary"/>
   </LinearLayout>
 
