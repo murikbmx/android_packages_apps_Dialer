@@ -34,4 +34,5 @@
     <string name="action_menu_helplines">Телефоны доверия</string>
     <string name="default_dialer_text">Перед использованием, вы должны установить \'Телефон\' в качестве приложения по умолчанию.</string>
     <string name="default_dialer_action">Установить по умолчанию</string>
+    <string name="call_recording_autostart_title">Автозапись звонков</string>
 </resources>
