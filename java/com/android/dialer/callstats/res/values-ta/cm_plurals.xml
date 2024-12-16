@@ -16,16 +16,16 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <plurals name="hour">
-        <item quantity="one">1 மணி</item>
-        <item quantity="other">%d மணி</item>
+        <item quantity="one">1 ம</item>
+        <item quantity="other">%d ம</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">1 நுணுத்தம்</item>
-        <item quantity="other">%d நுணுத்தம்</item>
+        <item quantity="one">1 நு</item>
+        <item quantity="other">%d நு</item>
     </plurals>
     <plurals name="second">
-        <item quantity="one">1 நொடி</item>
-        <item quantity="other">%d நொடி</item>
+        <item quantity="one">1 நொ</item>
+        <item quantity="other">%d நொ</item>
     </plurals>
     <plurals name="call">
         <item quantity="one">1 அழைப்பு</item>
