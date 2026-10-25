@@ -22,11 +22,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteException;
+import android.os.UserManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
@@ -70,6 +72,8 @@ public class CallRecorder implements CallList.Listener {
   private boolean initialized = false;
   private ICallRecorderService service = null;
   private Pair<String, Long> pendingRecordLaunch = null;
+  // The call recording was autostarted for, so it isn't restarted after being stopped by the user
+  private String autostartedCallId = null;
 
   private final HashSet<RecordingProgressListener> progressListeners = new HashSet<>();
   private final Handler handler = new Handler(Looper.getMainLooper());
@@ -136,6 +140,8 @@ public class CallRecorder implements CallList.Listener {
     if (initialized) {
       context.unbindService(connection);
       service = null;
+      pendingRecordLaunch = null;
+      autostartedCallId = null;
       initialized = false;
     }
   }
@@ -237,9 +243,7 @@ public class CallRecorder implements CallList.Listener {
     if (!initialized && activeCall != null) {
       // we'll come here if this is the first active call
       initialize();
-      if (isCallRecordAutostart()) {
-        startRecording(activeCall.getNumber(), activeCall.getCreationTimeMillis());
-      }
+      maybeAutostartRecording(activeCall);
     } else {
       String activePhoneNumber = getActiveRecordingPhoneNumber();
       if (activeCall != null) {
@@ -248,9 +252,7 @@ public class CallRecorder implements CallList.Listener {
           if (activePhoneNumber != null) {
             finishRecording();
           }
-          if (isCallRecordAutostart()) {
-            startRecording(activeCall.getNumber(), activeCall.getCreationTimeMillis());
-          }
+          maybeAutostartRecording(activeCall);
         }
       } else {
         // the active call disappeared
@@ -259,8 +261,9 @@ public class CallRecorder implements CallList.Listener {
                   callList.getCallWithStateAndNumber(DialerCallState.ONHOLD, activePhoneNumber);
           if (call != null) {
             // The call associated with the active recording has been placed
-            // on hold, so stop the recording.
+            // on hold, so stop the recording. Autostart it again once the call is resumed.
             finishRecording();
+            autostartedCallId = null;
           }
         }
       }
@@ -371,6 +374,23 @@ public class CallRecorder implements CallList.Listener {
     } finally {
         parser.close();
     }
+  }
+
+  private void maybeAutostartRecording(DialerCall call) {
+    if (!isEnabled() || TextUtils.equals(call.getId(), autostartedCallId) || call.isVideoCall()
+        || !isCallRecordAutostart()) {
+      return;
+    }
+    for (String permission : REQUIRED_PERMISSIONS) {
+      if (context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+        return;
+      }
+    }
+    if (!context.getSystemService(UserManager.class).isUserUnlocked()) {
+      return;
+    }
+    autostartedCallId = call.getId();
+    startRecording(call.getNumber(), call.getCreationTimeMillis());
   }
 
   private boolean isCallRecordAutostart() {
