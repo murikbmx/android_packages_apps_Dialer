@@ -36,6 +36,10 @@
      [CHAR LIMIT=12] -->
   <string name="incall_label_mute">Mute</string>
 
+  <!-- Button shown during a phone call to open a menu with the remaining in-call actions.
+     [CHAR LIMIT=12] -->
+  <string name="incall_label_more">More</string>
+
   <!-- Button shown during a phone call to show the dialpad.
      [CHAR LIMIT=12] -->
   <string name="incall_label_dialpad">Keypad</string>

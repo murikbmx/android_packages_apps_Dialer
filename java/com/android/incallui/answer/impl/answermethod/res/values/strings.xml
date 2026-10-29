@@ -11,4 +11,6 @@
   <string name="a11y_call_incoming_answer_description">Answer</string>
   <string name="call_incoming_answer">Answer</string>
 
+  <!-- Hint shown when the answer slider is tapped instead of dragged. [CHAR LIMIT=NONE] -->
+  <string name="call_incoming_slide_hint">Swipe right to answer, left to decline</string>
 </resources>

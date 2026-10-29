@@ -44,6 +44,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FloatRange;
@@ -138,6 +139,10 @@ public class AnswerFragment extends Fragment
   private View importanceBadge;
   private SwipeButtonView secondaryButton;
   private SwipeButtonView answerAndReleaseButton;
+  // The swipe buttons above are kept hidden, these chips are shown instead.
+  private TextView messageChip;
+  private TextView answerAndReleaseChip;
+  private View chipRow;
   private AffordanceHolderLayout affordanceHolderLayout;
   private LinearLayout chipContainer;
   // Use these flags to prevent user from clicking accept/reject buttons multiple times.
@@ -163,7 +168,8 @@ public class AnswerFragment extends Fragment
         R.drawable.quantum_ic_message_vd_theme_24,
         R.string.a11y_description_incoming_call_reject_with_sms,
         R.string.a11y_incoming_call_reject_with_sms,
-        R.string.call_incoming_swipe_to_decline_with_message) {
+        R.string.call_incoming_swipe_to_decline_with_message,
+        R.string.call_incoming_message_chip) {
       @Override
       public void performAction(AnswerFragment fragment) {
         fragment.showMessageMenu();
@@ -174,7 +180,8 @@ public class AnswerFragment extends Fragment
         R.drawable.quantum_ic_videocam_off_vd_theme_24,
         R.string.a11y_description_incoming_call_answer_video_as_audio,
         R.string.a11y_incoming_call_answer_video_as_audio,
-        R.string.call_incoming_swipe_to_answer_video_as_audio) {
+        R.string.call_incoming_swipe_to_answer_video_as_audio,
+        R.string.a11y_incoming_call_answer_video_as_audio) {
       @Override
       public void performAction(AnswerFragment fragment) {
         fragment.acceptCallByUser(true /* answerVideoAsAudio */);
@@ -185,7 +192,8 @@ public class AnswerFragment extends Fragment
         R.drawable.ic_end_answer_32,
         R.string.a11y_description_incoming_call_answer_and_release,
         R.string.a11y_incoming_call_answer_and_release,
-        R.string.call_incoming_swipe_to_answer_and_release) {
+        R.string.call_incoming_swipe_to_answer_and_release,
+        R.string.call_incoming_answer_and_release_chip) {
       @Override
       public void performAction(AnswerFragment fragment) {
         fragment.performAnswerAndRelease();
@@ -198,16 +206,19 @@ public class AnswerFragment extends Fragment
     public final int contentDescription;
     @StringRes public final int accessibilityLabel;
     @StringRes public final int hintText;
+    @StringRes public final int chipLabel;
 
     SecondaryBehavior(
         @DrawableRes int icon,
         @StringRes int contentDescription,
         @StringRes int accessibilityLabel,
-        @StringRes int hintText) {
+        @StringRes int hintText,
+        @StringRes int chipLabel) {
       this.icon = icon;
       this.contentDescription = contentDescription;
       this.accessibilityLabel = accessibilityLabel;
       this.hintText = hintText;
+      this.chipLabel = chipLabel;
     }
 
     public abstract void performAction(AnswerFragment fragment);
@@ -215,6 +226,12 @@ public class AnswerFragment extends Fragment
     public void applyToView(ImageView view) {
       view.setImageResource(icon);
       view.setContentDescription(view.getContext().getText(contentDescription));
+    }
+
+    public void applyToChip(TextView chip) {
+      chip.setText(chipLabel);
+      chip.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, 0, 0, 0);
+      chip.setContentDescription(chip.getContext().getText(contentDescription));
     }
   }
 
@@ -385,15 +402,15 @@ public class AnswerFragment extends Fragment
     } else if (textResponses == null) {
       LogUtil.i("AnswerFragment.setTextResponses", "no text responses, hiding secondary button");
       this.textResponses = null;
-      secondaryButton.setVisibility(View.INVISIBLE);
+      setSecondaryButtonVisible(false);
     } else if (getActivity().isInMultiWindowMode()) {
       LogUtil.i("AnswerFragment.setTextResponses", "in multiwindow, hiding secondary button");
       this.textResponses = null;
-      secondaryButton.setVisibility(View.INVISIBLE);
+      setSecondaryButtonVisible(false);
     } else {
       LogUtil.i("AnswerFragment.setTextResponses", "textResponses.size: " + textResponses.size());
       this.textResponses = new ArrayList<>(textResponses);
-      secondaryButton.setVisibility(View.VISIBLE);
+      setSecondaryButtonVisible(true);
     }
   }
 
@@ -403,6 +420,8 @@ public class AnswerFragment extends Fragment
             ? SecondaryBehavior.ANSWER_VIDEO_AS_AUDIO
             : SecondaryBehavior.REJECT_WITH_SMS;
     secondaryBehavior.applyToView(secondaryButton);
+    secondaryBehavior.applyToChip(messageChip);
+    messageChip.setOnClickListener(v -> performSecondaryButtonAction());
 
     secondaryButton.setOnClickListener(v -> performSecondaryButtonAction());
     secondaryButton.setClickable(AccessibilityUtil.isAccessibilityEnabled(getContext()));
@@ -410,26 +429,38 @@ public class AnswerFragment extends Fragment
     secondaryButton.setAccessibilityDelegate(accessibilityDelegate);
 
     if (isVideoUpgradeRequest()) {
-      secondaryButton.setVisibility(View.INVISIBLE);
+      setSecondaryButtonVisible(false);
     } else if (isVideoCall()) {
-      secondaryButton.setVisibility(View.VISIBLE);
+      setSecondaryButtonVisible(true);
     }
 
     answerAndReleaseBehavior = SecondaryBehavior.ANSWER_AND_RELEASE;
     answerAndReleaseBehavior.applyToView(answerAndReleaseButton);
+    answerAndReleaseBehavior.applyToChip(answerAndReleaseChip);
+    answerAndReleaseChip.setOnClickListener(v -> performAnswerAndReleaseButtonAction());
 
     answerAndReleaseButton.setClickable(AccessibilityUtil.isAccessibilityEnabled(getContext()));
     answerAndReleaseButton.setFocusable(AccessibilityUtil.isAccessibilityEnabled(getContext()));
     answerAndReleaseButton.setAccessibilityDelegate(accessibilityDelegate);
 
     if (allowAnswerAndRelease()) {
-      answerAndReleaseButton.setVisibility(View.VISIBLE);
+      setAnswerAndReleaseButtonVisible(true);
       answerScreenDelegate.onAnswerAndReleaseButtonEnabled();
     } else {
-      answerAndReleaseButton.setVisibility(View.INVISIBLE);
+      setAnswerAndReleaseButtonVisible(false);
       answerScreenDelegate.onAnswerAndReleaseButtonDisabled();
     }
     answerAndReleaseButton.setOnClickListener(v -> performAnswerAndReleaseButtonAction());
+  }
+
+  private void setSecondaryButtonVisible(boolean visible) {
+    secondaryButton.setVisibility(View.INVISIBLE);
+    messageChip.setVisibility(visible ? View.VISIBLE : View.GONE);
+  }
+
+  private void setAnswerAndReleaseButtonVisible(boolean visible) {
+    answerAndReleaseButton.setVisibility(View.INVISIBLE);
+    answerAndReleaseChip.setVisibility(visible ? View.VISIBLE : View.GONE);
   }
 
   /** Initialize chip buttons */
@@ -652,6 +683,9 @@ public class AnswerFragment extends Fragment
     View view = inflater.inflate(R.layout.fragment_incoming_call, container, false);
     secondaryButton = (SwipeButtonView) view.findViewById(R.id.incoming_secondary_button);
     answerAndReleaseButton = (SwipeButtonView) view.findViewById(R.id.incoming_secondary_button2);
+    messageChip = view.findViewById(R.id.incoming_message_chip);
+    answerAndReleaseChip = view.findViewById(R.id.incoming_answer_and_release_chip);
+    chipRow = view.findViewById(R.id.incoming_chip_row);
 
     affordanceHolderLayout = (AffordanceHolderLayout) view.findViewById(R.id.incoming_container);
     affordanceHolderLayout.setAffordanceCallback(affordanceCallback);
@@ -843,6 +877,7 @@ public class AnswerFragment extends Fragment
     float headerProgress = Math.max(0, (Math.abs(answerProgress) - 1) / (1 - startDelay) + 1);
     fadeToward(contactGridManager.getContainerView(), 1 - headerProgress);
     scaleToward(contactGridManager.getContainerView(), MathUtil.lerp(1f, .75f, headerProgress));
+    fadeToward(chipRow, 1 - Math.min(1, Math.abs(answerProgress) * 2));
 
     if (Math.abs(answerProgress) >= .0001) {
       affordanceHolderLayout.animateHideLeftRightIcon();

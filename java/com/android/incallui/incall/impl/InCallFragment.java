@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.View.OnAttachStateChangeListener;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.view.Window;
 import android.view.WindowInsets;
 import android.view.accessibility.AccessibilityEvent;
@@ -222,6 +223,13 @@ public class InCallFragment extends Fragment
             if (topInset != container.getPaddingTop()) {
               TransitionManager.beginDelayedTransition(((ViewGroup) container.getParent()));
               container.setPadding(0, topInset, 0, bottomInset);
+            }
+            // Let the bottom sheet extend behind the navigation bar.
+            View bottomSheet = v.findViewById(R.id.incall_bottom_sheet);
+            MarginLayoutParams sheetParams = (MarginLayoutParams) bottomSheet.getLayoutParams();
+            if (sheetParams.bottomMargin != -bottomInset) {
+              sheetParams.bottomMargin = -bottomInset;
+              bottomSheet.setLayoutParams(sheetParams);
             }
           }
 

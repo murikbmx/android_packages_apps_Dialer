@@ -22,9 +22,19 @@
   <dimen name="incall_button_vertical_padding">8dp</dimen>
   <dimen name="incall_avatar_size">0dp</dimen>
   <dimen name="incall_labeled_button_size">48dp</dimen>
-  <dimen name="incall_labeled_button_icon_size">36dp</dimen>
+  <dimen name="incall_labeled_button_width">64dp</dimen>
+  <dimen name="incall_labeled_button_icon_size">24dp</dimen>
   <dimen name="tools_button_height">76dp</dimen>
   <dimen name="incall_window_margin_horizontal">24dp</dimen>
+  <dimen name="incall_button_row_margin_horizontal">12dp</dimen>
+  <dimen name="incall_button_row_height">96dp</dimen>
+  <dimen name="incall_button_corner_radius">32dp</dimen>
+  <dimen name="incall_button_checked_corner_radius">18dp</dimen>
+  <dimen name="incall_bottom_sheet_corner_radius">32dp</dimen>
+  <dimen name="incall_bottom_sheet_offset">-20dp</dimen>
+  <dimen name="incall_end_call_pill_width">160dp</dimen>
+  <dimen name="incall_end_call_pill_height">64dp</dimen>
+  <dimen name="incall_end_call_pill_corner_radius">32dp</dimen>
 
   <bool name="incall_dialpad_allowed">false</bool>
   <integer name="incall_num_rows">0</integer>

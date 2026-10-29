@@ -8,4 +8,5 @@
   <string name="call_incoming_decline">Отклонить</string>
   <string name="a11y_call_incoming_answer_description">Ответить</string>
   <string name="call_incoming_answer">Ответить</string>
+  <string name="call_incoming_slide_hint">Проведите вправо, чтобы ответить, или влево, чтобы отклонить</string>
 </resources>

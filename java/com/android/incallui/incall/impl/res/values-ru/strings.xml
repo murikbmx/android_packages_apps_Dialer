@@ -14,4 +14,5 @@
   <string name="incall_label_swap">Переключить</string>
   <string name="incall_label_swap_sim">Сменить SIM-карту</string>
   <string name="incall_note_sent">Сообщение отправлено</string>
+  <string name="incall_label_more">Ещё</string>
 </resources>

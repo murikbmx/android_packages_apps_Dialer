@@ -24,4 +24,11 @@
   <dimen name="two_button_bottom_padding">24dp</dimen>
   <dimen name="answer_swipe_dead_zone_sides">50dp</dimen>
   <dimen name="answer_swipe_dead_zone_top">150dp</dimen>
+  <dimen name="slide_track_height">80dp</dimen>
+  <dimen name="slide_track_margin_horizontal">24dp</dimen>
+  <dimen name="slide_track_margin_bottom">48dp</dimen>
+  <dimen name="slide_thumb_width">112dp</dimen>
+  <dimen name="slide_thumb_height">64dp</dimen>
+  <dimen name="slide_thumb_inset">8dp</dimen>
+  <dimen name="slide_hint_margin_bottom">220dp</dimen>
 </resources>

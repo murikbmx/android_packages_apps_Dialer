@@ -17,7 +17,6 @@
 
 package com.android.incallui.incall.impl;
 
-import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -89,15 +88,17 @@ public class CheckableLabeledButton extends LinearLayout implements Checkable {
     setPadding(paddingSize, paddingSize, paddingSize, paddingSize);
 
     int iconSize = getResources().getDimensionPixelSize(R.dimen.incall_labeled_button_size);
+    int iconWidth = getResources().getDimensionPixelSize(R.dimen.incall_labeled_button_width);
     int imageSize = getResources().getDimensionPixelSize(R.dimen.incall_labeled_button_icon_size);
     int iconPadding = (iconSize - imageSize) / 2;
+    int iconPaddingHorizontal = (iconWidth - imageSize) / 2;
 
     iconView = new ImageView(context, null, android.R.style.Widget_Material_Button_Colored);
     LayoutParams iconParams = generateDefaultLayoutParams();
-    iconParams.width = iconSize;
+    iconParams.width = iconWidth;
     iconParams.height = iconSize;
     iconView.setLayoutParams(iconParams);
-    iconView.setPadding(iconPadding, iconPadding, iconPadding, iconPadding);
+    iconView.setPadding(iconPaddingHorizontal, iconPadding, iconPaddingHorizontal, iconPadding);
     iconView.setImageDrawable(icon);
     iconView.setImageTintMode(Mode.SRC_IN);
     iconView.setImageTintList(
@@ -106,9 +107,8 @@ public class CheckableLabeledButton extends LinearLayout implements Checkable {
     iconView.setBackground(
         getResources().getDrawable(R.drawable.incall_button_background, context.getTheme()));
     iconView.setDuplicateParentStateEnabled(true);
-    iconView.setElevation(getResources().getDimension(R.dimen.incall_button_elevation));
-    iconView.setStateListAnimator(
-        AnimatorInflater.loadStateListAnimator(context, R.animator.incall_button_elevation));
+    // The containers are translucent, a shadow would show through them.
+    iconView.setStateListAnimator(null);
     addView(iconView);
 
     labelView = new TextView(context);
@@ -120,8 +120,7 @@ public class CheckableLabeledButton extends LinearLayout implements Checkable {
     labelView.setLayoutParams(labelParams);
     labelView.setTextAppearance(R.style.Dialer_Incall_TextAppearance_Label);
     labelView.setText(labelText);
-    labelView.setSingleLine();
-    labelView.setMaxEms(9);
+    labelView.setMaxLines(2);
     labelView.setEllipsize(TruncateAt.END);
     labelView.setGravity(Gravity.CENTER);
     labelView.setDuplicateParentStateEnabled(true);
@@ -156,6 +155,14 @@ public class CheckableLabeledButton extends LinearLayout implements Checkable {
       iconView.setImageResource(drawableRes);
       iconResource = drawableRes;
     }
+  }
+
+  public CharSequence getLabelText() {
+    return labelView.getText();
+  }
+
+  public ColorStateList getIconTintList() {
+    return iconView.getImageTintList();
   }
 
   public void setLabelText(@StringRes int stringRes) {
@@ -221,7 +228,7 @@ public class CheckableLabeledButton extends LinearLayout implements Checkable {
     return handled;
   }
 
-  private boolean isCheckable() {
+  public boolean isCheckable() {
     return onCheckedChangeListener != null;
   }
 

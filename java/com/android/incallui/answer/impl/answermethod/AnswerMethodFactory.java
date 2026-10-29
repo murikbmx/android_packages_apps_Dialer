@@ -33,7 +33,7 @@ public class AnswerMethodFactory {
     if (needTwoButton(activity)) {
       return new TwoButtonMethod();
     } else {
-      return new FlingUpDownMethod();
+      return new SlideToAnswerMethod();
     }
   }
 

@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+  android:color="@color/incall_button_ripple">
   <item>
-    <selector>
+    <!-- Crossfade between the pill and the rounded square when the button is toggled. -->
+    <selector
+      android:enterFadeDuration="@android:integer/config_shortAnimTime"
+      android:exitFadeDuration="@android:integer/config_shortAnimTime">
       <item
         android:drawable="@drawable/incall_button_background_checked"
         android:state_checked="true"/>
       <item android:drawable="@drawable/incall_button_background_unchecked"/>
     </selector>
   </item>
-  <item>
-    <ripple android:color="@color/incall_button_ripple">
-      <item
-        android:id="@android:id/mask"
-        android:gravity="center">
-        <shape android:shape="oval">
-          <solid android:color="@android:color/white"/>
-        </shape>
-      </item>
-    </ripple>
+  <item android:id="@android:id/mask">
+    <shape android:shape="rectangle">
+      <corners android:radius="@dimen/incall_button_corner_radius"/>
+      <solid android:color="@android:color/white"/>
+    </shape>
   </item>
-</layer-list>
+</ripple>

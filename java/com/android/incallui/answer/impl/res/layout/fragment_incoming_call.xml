@@ -171,6 +171,29 @@
           android:layout_height="220dp"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/incoming_chip_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/answer_chip_row_margin_bottom"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/incoming_message_chip"
+          style="@style/AnswerChip"
+          android:visibility="gone"
+          tools:text="Message"
+          tools:visibility="visible"/>
+
+      <TextView
+          android:id="@+id/incoming_answer_and_release_chip"
+          style="@style/AnswerChip"
+          android:layout_marginStart="8dp"
+          android:visibility="gone"/>
+    </LinearLayout>
   </FrameLayout>
 
   <com.android.incallui.answer.impl.affordance.SwipeButtonView

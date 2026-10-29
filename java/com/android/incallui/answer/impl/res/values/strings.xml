@@ -17,8 +17,8 @@
 <resources>
   <string name="call_incoming_swipe_to_decline_with_message">Swipe from icon to decline with message</string>
   <string name="call_incoming_swipe_to_answer_video_as_audio">Swipe from icon to answer as an audio call</string>
-  <string name="call_incoming_default_label_answer_and_release_second">Swipe up to answer and hold ongoing call</string>
-  <string name="call_incoming_default_label_answer_and_release_third">Swipe up to answer and end call on hold</string>
+  <string name="call_incoming_default_label_answer_and_release_second">Swipe right to answer and hold ongoing call</string>
+  <string name="call_incoming_default_label_answer_and_release_third">Swipe right to answer and end call on hold</string>
   <string name="call_incoming_swipe_to_answer_and_release">Swipe from icon to answer and end ongoing call</string>
   <string name="call_incoming_message_custom">Write your own…</string>
   <!-- "Respond via SMS" option that lets you compose a custom response. [CHAR LIMIT=30] -->
@@ -40,4 +40,10 @@
   <string description="The message announced to accessibility assistance on incoming call."
     name="a11y_incoming_call_swipe_gesture_prompt">Two finger swipe up to answer. Two finger swipe down to decline.</string>
   <string name="call_incoming_important">Important</string>
+  <!-- Label of the chip shown under the caller info to reject an incoming call with a text
+       message. [CHAR LIMIT=20] -->
+  <string name="call_incoming_message_chip">Message</string>
+  <!-- Label of the chip shown during call waiting to answer the incoming call and end the
+       ongoing one. [CHAR LIMIT=24] -->
+  <string name="call_incoming_answer_and_release_chip">Answer &amp; end call</string>
 </resources>

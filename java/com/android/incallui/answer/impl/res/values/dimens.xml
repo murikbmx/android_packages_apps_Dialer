@@ -19,6 +19,8 @@
   <dimen name="answer_contact_name_min_size">24sp</dimen>
   <dimen name="answer_avatar_size">0dp</dimen>
   <dimen name="answer_importance_margin_bottom">0dp</dimen>
+  <dimen name="answer_chip_height">56dp</dimen>
+  <dimen name="answer_chip_row_margin_bottom">152dp</dimen>
   <bool name="answer_important_call_allowed">false</bool>
   <bool name="scale_width">true</bool>
   <bool name="scale_height">false</bool>

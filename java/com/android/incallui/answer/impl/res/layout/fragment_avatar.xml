@@ -16,7 +16,7 @@
   -->
 
 
-<ImageView
+<com.android.incallui.contactgrid.CookieAvatarImageView
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@id/contactgrid_avatar"
   android:layout_width="@dimen/answer_avatar_size"
